@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
 import { Button } from './Button';
 
@@ -29,7 +29,7 @@ interface MovieProps {
   Runtime: string;
 }
 
-export function SideBar(props: SideBarProps) {
+export const SideBar = (props: SideBarProps) => {
   const [selectedGenreId, setSelectedGenreId] = useState(1);
 
   useEffect(() => {
@@ -40,11 +40,11 @@ export function SideBar(props: SideBarProps) {
     api.get<GenreResponseProps>(`genres/${selectedGenreId}`).then(response => {
       props.setSelectedGenre(response.data);
     })
-  }, [selectedGenreId]);  
+  }, [selectedGenreId]);
 
-  function handleClickButton(id: number) {
+  const handleClickButton = useCallback((id: number) => {
     setSelectedGenreId(id);
-  }
+  }, [])
   
   return (
     <nav className="sidebar">
